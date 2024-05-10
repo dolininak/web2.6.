@@ -33,13 +33,19 @@ include ('conf3.php');
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 try {
-$stmt = $db->prepare("SELECT * FROM  application");
+$stmt = $db->prepare("
+SELECT u.id, u.name, GROUP_CONCAT(pl.languages) AS languages1
+FROM application u
+JOIN application_programming_language upl ON u.id = upl.application_id
+JOIN programming_language pl ON upl.programming_language_id = pl.id
+GROUP BY u.id
+");
 $stmt->execute();
 $users = $stmt->fetchAll();
 
 // Отображение данных в виде таблицы
 echo '<table>';
-echo '<tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Date</th><th>Gender</th><th>Biografy</th><th>Actions</th></tr>';
+echo '<tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Date</th><th>Gender</th><th>Biografy</th><th>Login</th><th>Password</th><th>Languages</th><th>Actions</th></tr>';
 foreach ($users as $user) {
     echo '<tr>';
     echo '<td>' . $user['id'] . '</td>';
@@ -49,6 +55,9 @@ foreach ($users as $user) {
     echo '<td>' . $user['data'] . '</td>';
     echo '<td>' . $user['pol'] . '</td>';
     echo '<td>' . $user['bio'] . '</td>';
+    echo '<td>' . $user['login'] . '</td>';
+    echo '<td>' . $user['pass'] . '</td>';
+    echo '<td>' . $user['languages1'] . '</td>';
     echo '<td><a href="edit.php?id=' . $user['id'] . '">Edit</a> | <a href="delete.php?id=' . $user['id'] . '">Delete</a></td>';
     echo '</tr>';
 }
