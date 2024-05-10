@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $login = $result['login'];
-    $pass = $result['pass'];
+    $password = $result['pass'];
 
     
  include ('conf3.php');
