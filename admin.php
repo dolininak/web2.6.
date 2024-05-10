@@ -34,7 +34,7 @@ include ('conf3.php');
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 try {
 $stmt = $db->prepare("
-SELECT u.id, u.name, u.tel, u.email, u.data, u.pol, u.bio, u.login, u.pass GROUP_CONCAT(pl.languages) AS languages1
+SELECT u.id, u.name, u.tel, u.email, u.data, u.pol, u.bio, u.login, u.pass, GROUP_CONCAT(pl.languages) AS languages1
 FROM application u
 JOIN application_programming_language upl ON u.id = upl.application_id
 JOIN programming_language pl ON upl.programming_language_id = pl.id
