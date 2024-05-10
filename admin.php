@@ -76,7 +76,7 @@ $stmt = $db->prepare("SELECT pl.languages AS language, COUNT(*) AS total_lovers
 FROM application ap
 INNER JOIN application_programming_language apl ON ap.id = apl.application_id
 INNER JOIN programming_language pl ON apl.programming_language_id = pl.id
-GROUP BY pl.id");
+GROUP BY apl.application_id");
 
 $stmt->execute();
 
