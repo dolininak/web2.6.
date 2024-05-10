@@ -42,11 +42,9 @@ foreach ($languages as $key => $language) {
     echo '>' . $language . '</option>';
 }
 
-echo '</select>';
+echo '</select><br>';
 
     echo '<textarea placeholder="Ваша биография" name="bio">' . $user['bio'] . '</textarea><br>';
-
-    echo '<input type="checkbox" name="agreement" value="on" ' . ($user['agreement'] == 'on' ? 'checked' : '') . '> Согласен с условиями<br>';              
     
                        
     echo '<input type="submit" value="Update">';
