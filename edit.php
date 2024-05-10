@@ -35,7 +35,7 @@ $languages = array("100" => "Pascal", "101" => "C", "102" => "C++", "103" => "Ja
 
 foreach ($languages as $key => $language) {
     echo '<option value="' . $key . '"';
-    if (in_array($key, $user['languages'])) {
+    if (in_array($key, $user['languages1'])) {
         echo ' selected';
     }
     echo '>' . $language . '</option>';
