@@ -26,9 +26,7 @@ if (isset($_GET['id'])) {
 
     echo 'Favorite Programming Languages:<br>';
     echo '<select multiple="multiple" class="form_input2';
-if ($errors['languages']) { 
-    echo ' error'; 
-}
+
 echo '" name="languages[]">';
 
 echo '<option disabled>Выберите ваш любимый язык программирования</option>';
@@ -37,7 +35,7 @@ $languages = array("100" => "Pascal", "101" => "C", "102" => "C++", "103" => "Ja
 
 foreach ($languages as $key => $language) {
     echo '<option value="' . $key . '"';
-    if (in_array($key, $values['languages'])) {
+    if (in_array($key, $user['languages'])) {
         echo ' selected';
     }
     echo '>' . $language . '</option>';
