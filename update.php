@@ -1,13 +1,5 @@
 <?php
 
-
-      
-      
-    
-       
-         
-
-
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         include ('conf3.php');
   $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
@@ -16,7 +8,7 @@
     try {
         $stmt = $db->prepare("UPDATE application a INNER JOIN application_programming_language b 
         ON a.id = b.application_id INNER JOIN programming_language  c
-  ON b.programming_language_id = c.id SET name = ?, tel = ?, email = ?, data = ?, pol = ?, bio = ?  WHERE id=?");
+  ON b.programming_language_id = c.id SET a.name = ?, a.tel = ?, a.email = ?, a.data = ?, a.pol = ?, a.bio = ?  WHERE a.id=?");
           $stmt->execute([
               $_POST['name'],
               $_POST['tel'],
@@ -29,7 +21,8 @@
           ]);
     $id=$_POST['id'];
           
-          $stmt = $db->prepare('DELETE FROM application_programming_language WHERE application_id = $id');
+    $stmt = $db->prepare('DELETE FROM application_programming_language WHERE application_id = ?');
+    $stmt->execute([$id]);
           foreach ($_POST['languages'] as $language) {
             $stmt = $db->prepare("INSERT INTO programming_language (languages) VALUES (?)");
             $stmt->execute([$language]);
