@@ -4,17 +4,11 @@ if (isset($_GET['id'])) {
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     $id = $_GET['id'];
-
-    $stmt = $db->prepare("SELECT login, pass FROM application WHERE id = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt = $db->prepare("SELECT * FROM application WHERE id = :id");
+    $stmt->bindParam(':id', $id);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $login = $result['login'];
-    $pass = $result['pass'];
-
-
-
-    
+    $user = $stmt->fetch();
+     
     echo '<form action="update.php" method="post">';
     echo '<input type="hidden" name="id" value="' . $user['id'] . '">';
     echo 'Name: <input type="text" name="name" value="' . $user['name'] . '"><br>';
@@ -22,9 +16,9 @@ if (isset($_GET['id'])) {
     echo 'Email: <input type="text" name="email" value="' . $user['email'] . '"><br>';                
     echo 'Date:<input name="data"  type="date"   placeholder="Введите дату рождения" value="' . $user['data'] . '"> <br>';
     echo 'Gender:<br>';
-    
     echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'female' ? "checked" : '') . '> Женский<br>';
     echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'male' ? "checked" : '') . '> Мужской<br>';
+
     echo 'Favorite Programming Languages:<br>';
     echo '<select multiple="multiple" name="languages[]">';
     $selectedLanguages = explode(',', $user['languages']);
