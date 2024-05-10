@@ -16,7 +16,7 @@
     try {
         $stmt = $db->prepare("UPDATE application a INNER JOIN application_programming_language b 
         ON a.id = b.application_id INNER JOIN programming_language  c
-  ON b.programming_language_id = c.id SET name = ?, tel = ?, email = ?, data = ?, pol = ?, bio = ?,  WHERE id=?");
+  ON b.programming_language_id = c.id SET name = ?, tel = ?, email = ?, data = ?, pol = ?, bio = ?  WHERE id=?");
           $stmt->execute([
               $_POST['name'],
               $_POST['tel'],
