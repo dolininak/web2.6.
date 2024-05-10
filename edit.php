@@ -8,7 +8,8 @@ if (isset($_GET['id'])) {
     FROM application u
     JOIN application_programming_language upl ON u.id = upl.application_id
     JOIN programming_language pl ON upl.programming_language_id = pl.id
-    GROUP BY u.id WHERE u.id = :id");
+    WHERE u.id = :id
+    GROUP BY u.id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $user = $stmt->fetch();
