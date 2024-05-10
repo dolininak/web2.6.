@@ -71,18 +71,22 @@ catch(PDOException $e){
 include ('conf3.php');
 $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
   [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-// Запрос к таблице Admins
-$stmt = $db->prepare("SELECT pl.languages, count(*)
-FROM application ap INNER JOIN application_programming_language apl
- ON ap.id = apl.application_id INNER JOIN programming_language pl ON apl.programming_language_id = pl.id
-GROUP BY
- pl.id ");
+
+$stmt = $db->prepare("SELECT pl.languages AS language, COUNT(*) AS total_lovers
+FROM application ap
+INNER JOIN application_programming_language apl ON ap.id = apl.application_id
+INNER JOIN programming_language pl ON apl.programming_language_id = pl.id
+GROUP BY pl.id");
+
 $stmt->execute();
+
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($results as $row) {
     echo $row['language'] . ' has ' . $row['total_lovers'] . ' lovers.' . PHP_EOL;
 }
+
+
 // *********
 // Здесь нужно прочитать отправленные ранее пользователями данные и вывести в таблицу.
 // Реализовать просмотр и удаление всех данных.
