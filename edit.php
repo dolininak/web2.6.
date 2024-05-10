@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 if (isset($_GET['id'])) {
     include ('conf3.php');
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
@@ -11,7 +12,7 @@ if (isset($_GET['id'])) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $login = $result['login'];
     $password = $result['pass'];
-
+    $session_started = false;
     
  include ('conf3.php');
  $db1 = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
