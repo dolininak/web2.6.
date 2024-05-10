@@ -16,6 +16,7 @@ if (isset($_GET['id'])) {
     echo 'Email: <input type="text" name="email" value="' . $user['email'] . '"><br>';                
     echo 'Date:<input name="data"  type="date"   placeholder="Введите дату рождения" value="' . $user['data'] . '"> <br>';
     echo 'Gender:<br>';
+    echo "Значение пола из базы данных: " . $user['pol'] . "<br>";
     echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'female' ? "checked" : '') . '> Женский<br>';
     echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'male' ? "checked" : '') . '> Мужской<br>';
 
