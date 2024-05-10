@@ -14,11 +14,11 @@ if (isset($_GET['id'])) {
 
     
  include ('conf3.php');
- $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
+ $db1 = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
- $stmt = $db->prepare("SELECT * FROM application WHERE login = :login AND pass = :password");
- $stmt->execute(['login' => $login, 'password' => $password]);
- $user = $stmt->fetch();
+ $stmt1 = $db1->prepare("SELECT * FROM application WHERE login = :login AND pass = :password");
+ $stmt1->execute(['login' => $login, 'password' => $password]);
+ $user = $stmt1->fetch();
 
  if (!$user) {
      // Вывод сообщения об ошибке
@@ -26,6 +26,7 @@ if (isset($_GET['id'])) {
  } else {
      if (!$session_started) { 
          session_start(); 
+         $_COOKIE[session_name()];
      } 
      // Если все ок, то авторизуем пользователя. 
      
