@@ -32,10 +32,11 @@ echo '" name="languages[]">';
 echo '<option disabled>Выберите ваш любимый язык программирования</option>';
 
 $languages = array("100" => "Pascal", "101" => "C", "102" => "C++", "103" => "JavaScript", "104" => "PHP", "105" => "Python", "106" => "Java", "107" => "Haskel", "108" => "Clojure", "109" => "Prolog", "110" => "Scala");
+$languagesArray = explode(',', $user['languages1']);
 
 foreach ($languages as $key => $language) {
     echo '<option value="' . $key . '"';
-    if (in_array($key, $user['languages1'])) {
+    if (in_array($key, $languagesArray)) {
         echo ' selected';
     }
     echo '>' . $language . '</option>';
