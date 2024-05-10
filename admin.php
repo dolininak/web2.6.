@@ -72,11 +72,11 @@ include ('conf3.php');
 $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
   [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-$stmt = $db->prepare("SELECT pl.languages AS language, COUNT(*) AS total_lovers
-FROM application ap
-INNER JOIN application_programming_language apl ON ap.id = apl.application_id
-INNER JOIN programming_language pl ON apl.programming_language_id = pl.id
-GROUP BY apl.application_id");
+  $stmt = $db->prepare("SELECT pl.languages AS language, SUM(total_lovers) AS total_lovers_sum
+  FROM application ap
+  INNER JOIN application_programming_language apl ON ap.id = apl.application_id
+  INNER JOIN programming_language pl ON apl.programming_language_id = pl.id
+  GROUP BY pl.id");
 
 $stmt->execute();
 
