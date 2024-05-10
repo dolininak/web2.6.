@@ -82,9 +82,9 @@ $stmt->execute();
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($results as $row) {
-    echo $row['language'] . ' has ' . $row['total_lovers'] . ' lovers.' . PHP_EOL;
-}
+
+    echo $results['language'] . ' has ' . $results['total_lovers'] . ' lovers.' . PHP_EOL;
+
 
 
 // *********
