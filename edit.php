@@ -4,9 +4,11 @@ if (isset($_GET['id'])) {
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     $id = $_GET['id'];
-    $stmt = $db->prepare("SELECT * FROM  application a INNER JOIN application_programming_language b 
-    ON a.id = b.application_id INNER JOIN programming_language c
-ON b.programming_language_id = c.id WHERE a.id = :id");
+    $stmt = $db->prepare("SELECT u.id, u.name, u.tel, u.email, u.data, u.pol, u.bio, u.login, u.pass, GROUP_CONCAT(pl.languages) AS languages1
+    FROM application u
+    JOIN application_programming_language upl ON u.id = upl.application_id
+    JOIN programming_language pl ON upl.programming_language_id = pl.id
+    GROUP BY u.id WHERE u.id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $user = $stmt->fetch();
@@ -22,13 +24,25 @@ ON b.programming_language_id = c.id WHERE a.id = :id");
     echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'Male' ? "checked" : '') . '> Мужской<br>';
 
     echo 'Favorite Programming Languages:<br>';
-    echo '<select multiple="multiple" name="languages[]">';
-    $selectedLanguages = explode(',', $user['languages']);
-    $languages = array("100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110");
-    foreach ($languages as $language) {
-        echo '<option value="' . $language . '" ' . (in_array($language, $selectedLanguages) ? 'selected' : '') . '>' . $language . '</option>';
+    echo '<select multiple="multiple" class="form_input2';
+if ($errors['languages']) { 
+    echo ' error'; 
+}
+echo '" name="languages[]">';
+
+echo '<option disabled>Выберите ваш любимый язык программирования</option>';
+
+$languages = array("100" => "Pascal", "101" => "C", "102" => "C++", "103" => "JavaScript", "104" => "PHP", "105" => "Python", "106" => "Java", "107" => "Haskel", "108" => "Clojure", "109" => "Prolog", "110" => "Scala");
+
+foreach ($languages as $key => $language) {
+    echo '<option value="' . $key . '"';
+    if (in_array($key, $values['languages'])) {
+        echo ' selected';
     }
-    echo '</select><br>';
+    echo '>' . $language . '</option>';
+}
+
+echo '</select>';
 
     echo '<textarea placeholder="Ваша биография" name="bio">' . $user['bio'] . '</textarea><br>';
 
