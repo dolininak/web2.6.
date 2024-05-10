@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=UTF-8');
 if (isset($_GET['id'])) {
     include ('conf3.php');
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
@@ -11,34 +10,37 @@ if (isset($_GET['id'])) {
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $login = $result['login'];
-    $password = $result['pass'];
-    $session_started = false;
+    $pass = $result['pass'];
+
+
+
     
- include ('conf3.php');
- $db1 = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
-   [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
- $stmt1 = $db1->prepare("SELECT * FROM application WHERE login = :login AND pass = :password");
- $stmt1->execute(['login' => $login, 'password' => $password]);
- $user = $stmt1->fetch();
+    echo '<form action="update.php" method="post">';
+    echo '<input type="hidden" name="id" value="' . $user['id'] . '">';
+    echo 'Name: <input type="text" name="name" value="' . $user['name'] . '"><br>';
+    echo 'Tel: <input type="text" name="tel" value="' . $user['tel'] . '"><br>';
+    echo 'Email: <input type="text" name="email" value="' . $user['email'] . '"><br>';                
+    echo 'Date:<input name="data"  type="date"   placeholder="Введите дату рождения" value="' . $user['data'] . '"> <br>';
+    echo 'Gender:<br>';
+    
+    echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'female' ? "checked" : '') . '> Женский<br>';
+    echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'male' ? "checked" : '') . '> Мужской<br>';
+    echo 'Favorite Programming Languages:<br>';
+    echo '<select multiple="multiple" name="languages[]">';
+    $selectedLanguages = explode(',', $user['languages']);
+    $languages = array("Pascal", "C", "C++", "JavaScript", "PHP", "Python", "Java", "Haskell", "Clojure", "Prolog", "Scala");
+    foreach ($languages as $language) {
+        echo '<option value="' . $language . '" ' . (in_array($language, $selectedLanguages) ? 'selected' : '') . '>' . $language . '</option>';
+    }
+    echo '</select><br>';
 
- if (!$user) {
-     // Вывод сообщения об ошибке
-     echo "Неверный логин или пароль";
- } else {
-     if (!$session_started) { 
-         session_start(); 
-         $_COOKIE[session_name()];
-     } 
-     // Если все ок, то авторизуем пользователя. 
-     
-     $_SESSION['login'] = $login; 
-     $_SESSION['password'] = $password;
-     // Записываем ID пользователя. 
-     $_SESSION['uid'] = $user['id']; 
+    echo '<textarea placeholder="Ваша биография" name="bio">' . $user['bio'] . '</textarea><br>';
 
-     // Делаем перенаправление. 
-     header('Location: ./'); 
- }
+    echo '<input type="checkbox" name="agreement" value="on" ' . ($user['agreement'] == 'on' ? 'checked' : '') . '> Согласен с условиями<br>';              
+    
+                       
+    echo '<input type="submit" value="Update">';
+    echo '</form>';
 
 }
 ?>
