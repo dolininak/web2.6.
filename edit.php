@@ -17,13 +17,13 @@ if (isset($_GET['id'])) {
     echo 'Date:<input name="data"  type="date"   placeholder="Введите дату рождения" value="' . $user['data'] . '"> <br>';
     echo 'Gender:<br>';
     echo "Значение пола из базы данных: " . $user['pol'] . "<br>";
-    echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'female' ? "checked" : '') . '> Женский<br>';
-    echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'male' ? "checked" : '') . '> Мужской<br>';
+    echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'Female' ? "checked" : '') . '> Женский<br>';
+    echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'Male' ? "checked" : '') . '> Мужской<br>';
 
     echo 'Favorite Programming Languages:<br>';
     echo '<select multiple="multiple" name="languages[]">';
     $selectedLanguages = explode(',', $user['languages']);
-    $languages = array("Pascal", "C", "C++", "JavaScript", "PHP", "Python", "Java", "Haskell", "Clojure", "Prolog", "Scala");
+    $languages = array("100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110");
     foreach ($languages as $language) {
         echo '<option value="' . $language . '" ' . (in_array($language, $selectedLanguages) ? 'selected' : '') . '>' . $language . '</option>';
     }
