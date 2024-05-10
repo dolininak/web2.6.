@@ -4,7 +4,9 @@ if (isset($_GET['id'])) {
     $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     $id = $_GET['id'];
-    $stmt = $db->prepare("SELECT * FROM application WHERE id = :id");
+    $stmt = $db->prepare("SELECT * FROM  application a INNER JOIN application_programming_language b 
+    ON a.id = b.application_id INNER JOIN programming_language c
+ON b.programming_language_id = c.id WHERE a.id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $user = $stmt->fetch();
@@ -16,7 +18,6 @@ if (isset($_GET['id'])) {
     echo 'Email: <input type="text" name="email" value="' . $user['email'] . '"><br>';                
     echo 'Date:<input name="data"  type="date"   placeholder="Введите дату рождения" value="' . $user['data'] . '"> <br>';
     echo 'Gender:<br>';
-    echo "Значение пола из базы данных: " . $user['pol'] . "<br>";
     echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'Female' ? "checked" : '') . '> Женский<br>';
     echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'Male' ? "checked" : '') . '> Мужской<br>';
 
