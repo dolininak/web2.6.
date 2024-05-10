@@ -1,15 +1,14 @@
 <?php
 if (isset($_GET['id'])) {
-    // Получаем данные пользователя по ID
+    include ('conf3.php');
+    $db = new PDO('mysql:host=localhost;dbname=u67432', $user, $pass,
+    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     $id = $_GET['id'];
-    $stmt = $pdo->prepare("SELECT * FROM application WHERE id = :id");
+    $stmt = $db->prepare("SELECT * FROM application WHERE id = :id");
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     $user = $stmt->fetch();
-
-    // Отображаем форму для редактирования данных
-    
-    
+     
     echo '<form action="update.php" method="post">';
     echo '<input type="hidden" name="id" value="' . $user['id'] . '">';
     echo 'Name: <input type="text" name="name" value="' . $user['name'] . '"><br>';
@@ -19,7 +18,6 @@ if (isset($_GET['id'])) {
     echo 'Gender:<br>';
     echo '<input name="pol" type="radio" value="female" ' . ($user['pol'] == 'female' ? 'checked' : '') . '> Женский<br>';
     echo '<input name="pol" type="radio" value="male" ' . ($user['pol'] == 'male' ? 'checked' : '') . '> Мужской<br>';
-
     echo 'Favorite Programming Languages:<br>';
     echo '<select multiple="multiple" name="languages[]">';
     $selectedLanguages = explode(',', $user['languages']);
@@ -36,6 +34,6 @@ if (isset($_GET['id'])) {
                        
     echo '<input type="submit" value="Update">';
     echo '</form>';
-    
+
 }
 ?>
